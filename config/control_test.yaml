@@ -1,0 +1,17 @@
+bot:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 10  
+
+  # Position Controllers ---------------------------------------
+  joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  #IMU
+  imu_sensor_controller:
+    type: imu_sensor_controller/ImuSensorController
+    name: ImuTest
+    publish_rate: 10
+    
