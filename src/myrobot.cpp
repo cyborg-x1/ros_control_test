@@ -20,6 +20,7 @@ int main(int argc, char** argv)
 
   ros::Time ts = ros::Time::now();
 
+  ros::Rate rate(50);
   while (ros::ok())
   {
      ros::Duration d = ts - ros::Time::now();
@@ -27,7 +28,7 @@ int main(int argc, char** argv)
      robot.read();
      cm.update(ts, d);
      robot.write();
-     usleep(500000);
+     rate.sleep();
   }
 
   spinner.stop();

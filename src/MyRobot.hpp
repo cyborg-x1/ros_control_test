@@ -8,15 +8,27 @@ class MyRobot : public hardware_interface::RobotHW
 {
 public:
   MyRobot()
-  :orientation({0,1,2,3})
  {
+   cmd[0]=0;
+   cmd[1]=0;
+   pos[0]=0;
+   pos[1]=0;
+   vel[0]=0;
+   vel[1]=0;
+   eff[0]=0;
+   eff[1]=0;
+   
    // connect and register the joint state interface
-   hardware_interface::JointStateHandle state_handle_a("Joint", &pos[0], &vel[0], &eff[0]); //pos vel eff outputs of the state message...
+   hardware_interface::JointStateHandle state_handle_a("JointA", &pos[0], &vel[0], &eff[0]); //pos vel eff outputs of the state message...
    jnt_state_interface.registerHandle(state_handle_a);
+   hardware_interface::JointStateHandle state_handle_b("JointB", &pos[1], &vel[1], &eff[1]); //pos vel eff outputs of the state message...
+   jnt_state_interface.registerHandle(state_handle_b);
 
-   hardware_interface::JointHandle pos_handle_a(jnt_state_interface.getHandle("Joint"), &cmd[0]); //cmd is the commanded value depending on the controller.
+
+   hardware_interface::JointHandle pos_handle_a(jnt_state_interface.getHandle("JointA"), &cmd[0]); //cmd is the commanded value depending on the controller.
+   hardware_interface::JointHandle pos_handle_b(jnt_state_interface.getHandle("JointB"), &cmd[1]); //cmd is the commanded value depending on the controller.
    registerInterface(&jnt_state_interface);
-
+   
 
    hardware_interface::ImuSensorHandle::Data data;
    data.name="ImuTest";
@@ -44,7 +56,14 @@ public:
    jnt_pos_interface.registerHandle(pos_handle_a);
    jnt_vel_interface.registerHandle(pos_handle_a);
    jnt_eff_interface.registerHandle(pos_handle_a);
+   
+   jnt_pos_interface.registerHandle(pos_handle_b);
+   jnt_vel_interface.registerHandle(pos_handle_b);
+   jnt_eff_interface.registerHandle(pos_handle_b);
 
+   
+   
+   
    registerInterface(&jnt_pos_interface);
    registerInterface(&jnt_vel_interface);
    registerInterface(&jnt_eff_interface);
@@ -56,15 +75,12 @@ public:
 
   void write()
   {
-
-
-	  std::cout<<"write "<<orientation_covariance[1]<<"  "<<cmd[0]<<" "<<pos[0]<<" "<<vel[0]<<" "<<eff[0]<<" "<<std::endl;
+	  std::cout<<"write "<<"  "<<cmd[0]<<" "<<cmd[1]<<std::endl;
   }
 
   void read()
   {
-	  pos[0]=cmd[0];
-	  std::cout<<"read "<<cmd[0]<<" "<<pos[0]<<" "<<vel[0]<<" "<<eff[0]<<" "<<std::endl;
+          std::cout<<"read "<<"  "<<pos[0]<<" "<<pos[1]<<std::endl;
   }
 
 private:
