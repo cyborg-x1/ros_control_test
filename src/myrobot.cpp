@@ -23,7 +23,7 @@ int main(int argc, char** argv)
   ros::Rate rate(50);
   while (ros::ok())
   {
-     ros::Duration d = ts - ros::Time::now();
+     ros::Duration d = ros::Time::now() - ts;
      ts = ros::Time::now();
      robot.read();
      cm.update(ts, d);
